@@ -3,9 +3,9 @@
  * project2.cpp
  * Spring 2025
  *
- * Partner 1:
- * Partner 2:
- * Date:
+ * Partner 1: Princess Alexander
+ * Partner 2: Rene Urias Jr.
+ * Date: 05-03-2025 (dd-mm-yyyy)
  */
 
 #include "project2.hpp"
