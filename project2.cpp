@@ -12,11 +12,67 @@
 
 using namespace std;
 
-/*
- * Depth First Search
+/**
+ * Depth First Search (DFS)
+ * 
+ * DFS finds a path through the maze from the start vertex to the exit vertex.
+ * 
+ * @param adjList The adjacency list representation of the maze (vector of Vertex objects).
+ * @param start The starting vertex of the maze.
+ * @param exit The exit vertex of the maze.
+ * @return A vector<int> containing the path from start to exit, or an empty 
+ *         vector if no path exists.
  */
 vector<int> DFS(vector<Vertex> &adjList, Vertex &start, Vertex &exit) {
-    vector<int> path;
+    stack<int> s;            // a stack to store DFS traversal
+    vector<int> path;        // a vector to store the final path
+
+    // Initialize all the vertices to have no previous and no pointer
+    for (Vertex &v : adjList) {
+        v.visited = false;
+        v.previous = -1;     // -1 means that there was no vertex before it
+    } // for
+
+    // Start DFS from the start vertex
+    start.visited = true;
+    s.push(start.label);
+
+    // Traversing through the maze
+    while (!s.empty()) {
+        int currentLabel = s.top();  // grab the top element
+        s.pop();
+        Vertex &currentVertex = adjList[currentLabel];
+
+        // when we reach the exit, we should stop the search
+        if (currentLabel == exit.label) {
+            break;
+        } // if
+
+        // Visit all unvisited neighbors (LIFO order)
+        for (int neighborLabel : currentVertex.neighbors) {
+            Vertex &neighborVertex = adjList[neighborLabel];
+            if (!neighborVertex.visited) {
+                neighborVertex.visited = true;
+                neighborVertex.previous = currentLabel;  // keeps track of the path
+                s.push(neighborLabel);
+            } // if
+        } // for
+    } // while
+
+    // Trace/ step back up the tree from the exit to start
+    int trace = exit.label;
+    if (!adjList[trace].visited) {
+        // If exit was never visited, there is no path through the maze that exists
+        return path;
+    } // if
+    while (trace != -1) {
+        path.push_back(trace);
+        trace = adjList[trace].previous;
+    } // while
+
+    // traversing the path the opposite way from start to exit
+    reverse(path.begin(), path.end());
+
     return path;
 }
 
