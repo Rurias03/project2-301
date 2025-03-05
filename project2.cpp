@@ -74,7 +74,7 @@ vector<int> DFS(vector<Vertex> &adjList, Vertex &start, Vertex &exit) {
     reverse(path.begin(), path.end());
 
     return path;
-}
+} // DFS
 
 /*
  * Breadth First Search
